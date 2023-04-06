@@ -1,0 +1,25 @@
+version: '3'
+services:
+  restapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: restapi
+    restart: unless-stopped
+    environment:
+      MONGODB_DATABASE: apidb
+      MONGODB_HOSTNAME: mongodb
+    ports:
+      - "80:80"
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:4.0.8
+    container_name: mongodb
+    restart: unless-stopped
+    command: mongod
+    environment:
+      MONGO_INITDB_DATABASE: apidb
+      MONGODB_DATA_DIR: /data/db
+      MONDODB_LOG_DIR: /dev/null
